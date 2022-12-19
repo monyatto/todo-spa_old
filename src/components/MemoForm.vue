@@ -1,21 +1,35 @@
 <script setup>
 import { onMounted, ref, defineComponent } from 'vue';
+import { computed } from 'vue'
 
 import { storeToRefs } from 'pinia';
 import { useMemosStore } from '../stores/memos';
+import { useRoute } from 'vue-router';
 
 const { addMemo } = useMemosStore();
 const { deleteMemo } = useMemosStore();
 const { getMemoById } = useMemosStore();
 const { editMemo } = useMemosStore();
+const { findMemo } = useMemosStore();
+
 
 const memos = useMemosStore();
 const memoText = ref('');
-const newText = ref('');
+
+
+const route = useRoute();
 
 const props = defineProps({
   isNew: Boolean,
 });
+
+
+const newText = computed(() => findMemo(route.params.memoId).text)
+
+// const newText = ref('')
+
+// const newText = ref(computed(() => findMemo(route.params.memoId).text))
+
 
 </script>
 

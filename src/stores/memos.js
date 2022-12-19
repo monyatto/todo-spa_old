@@ -26,13 +26,15 @@ export const useMemosStore = defineStore('memos', {
     },
     addMemo(memoText) {
       const uid = self.crypto.randomUUID();
-      const memo = { id: uid , text: memoText, canEdit: false };
+      const title = memoText.split(/\n/)[0]
+      const memo = { id: uid , text: memoText, title: title, canEdit: false };
       this.memos.push(memo);
       this.saveMemos()
     },
     editMemo(memoId, newText) {
       const foundMemo = this.findMemo(memoId);
       foundMemo.text = newText
+      foundMemo.title = newText.split(/\n/)[0]
     },
     findMemo(memoId) {
       return this.memos.find((memo) => memo.id === memoId)
@@ -41,8 +43,8 @@ export const useMemosStore = defineStore('memos', {
       localStorage.setItem('memos', JSON.stringify(this.memos));
     },
     deleteMemo(memoId) {
-      this.memos = this.memos.filter(memo => memo.id !== memoId)
-      // this.$router.push('/memos')
+      const index = (this.memos.indexOf(this.memos.find((memo) => memo.id === memoId)))
+      this.memos.splice(index, 1)
     },
   },
 });

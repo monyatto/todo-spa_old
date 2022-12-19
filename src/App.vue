@@ -11,7 +11,5 @@ import NewPost from './components/NewPost.vue';
     <hr />
     <MemoList />
     <RouterView />
-    <hr />
-    <NewPost />
   </div>
 </template>
